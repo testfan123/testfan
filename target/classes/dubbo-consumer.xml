@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 消费方应用名 -->
+    <dubbo:application name="consumer"  />
+
+    <!-- 引入jdbc配置文件 -->
+	<context:property-placeholder location="classpath:application.properties" />
+	
+    <!-- 注册中心服务地址 -->
+    <dubbo:registry id="zookeeper" protocol="zookeeper" address="${dubbo.registry.address}" />
+
+    <!-- 引用ComputeService服务-->
+    <dubbo:reference id="computeService" interface="com.testfan.service.inf.ComputeService"
+                     check="false" version="${dubbo.registry.version}" registry="zookeeper" protocol="dubbo" timeout="15000"/>
+
+</beans>
